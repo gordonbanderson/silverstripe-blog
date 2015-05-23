@@ -1,3 +1,4 @@
+<% cached CacheKey('blogtagcloud', 'BlogTag') %>
 <% if $Tags %>
 	<ul class="blogTagCloud">
 		<% loop $Tags %>
@@ -10,3 +11,4 @@
 	</ul>
 	<div style="clear: both;"></div>
 <% end_if %>
+<% end_cached %>
