@@ -165,7 +165,7 @@ class Blog extends Page implements PermissionProvider {
 			$member = Member::currentUser();
 		}
 
-		if(is_int($member)) {
+		if(is_numeric($member)) {
 			$member = Member::get()->byID($member);
 		}
 
@@ -801,15 +801,12 @@ class Blog_Controller extends Page_Controller {
 		 * @var Blog $dataRecord
 		 */
 		$dataRecord = $this->dataRecord;
-
 		$tag = $this->request->param('Tag');
-
 		if($tag) {
 			return $dataRecord->Tags()
-				->filter('URLSegment', $tag)
+				->filter('URLSegment', array($tag, rawurlencode($tag)))
 				->first();
 		}
-
 		return null;
 	}
 
@@ -842,15 +839,12 @@ class Blog_Controller extends Page_Controller {
 		 * @var Blog $dataRecord
 		 */
 		$dataRecord = $this->dataRecord;
-
 		$category = $this->request->param('Category');
-
 		if($category) {
 			return $dataRecord->Categories()
-				->filter('URLSegment', $category)
+				->filter('URLSegment', array($category, rawurlencode($category)))
 				->first();
 		}
-
 		return null;
 	}
 

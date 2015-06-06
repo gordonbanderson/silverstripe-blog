@@ -113,9 +113,7 @@ class BlogPost extends Page {
 	 * @return null|string
 	 */
 	public function RoleOf($member = null) {
-		if(is_int($member)) {
-			$member = DataObject::get_by_id('Member', $member);
-		}
+		$member = $this->getMember($member);
 
 		if(!$member) {
 			return null;
@@ -224,13 +222,22 @@ class BlogPost extends Page {
 			$publishDate = DatetimeField::create('PublishDate', _t('BlogPost.PublishDate', 'Publish Date'));
 			$publishDate->getDateField()->setConfig('showcalendar', true);
 
+			// Get categories and tags
+			$parent = $self->Parent();
+			$categories = $parent instanceof Blog
+				? $parent->Categories()
+				: BlogCategory::get();
+			$tags = $parent instanceof Blog
+				? $parent->Tags()
+				: BlogTag::get();
+
 			$options = BlogAdminSidebar::create(
 				$publishDate,
 				$urlSegment,
 				TagField::create(
 					'Categories',
 					_t('BlogPost.Categories', 'Categories'),
-					$self->Parent()->Categories(),
+					$categories,
 					$self->Categories()
 				)
 					->setCanCreate($self->canCreateCategories())
@@ -238,7 +245,7 @@ class BlogPost extends Page {
 				TagField::create(
 					'Tags',
 					_t('BlogPost.Tags', 'Tags'),
-					$self->Parent()->Tags(),
+					$tags,
 					$self->Tags()
 				)
 					->setCanCreate($self->canCreateTags())
@@ -298,7 +305,7 @@ class BlogPost extends Page {
 			$member = Member::currentUser();
 		}
 
-		if(is_int($member)) {
+		if(is_numeric($member)) {
 			$member = Member::get()->byID($member);
 		}
 
@@ -313,7 +320,7 @@ class BlogPost extends Page {
 	 * @return bool
 	 */
 	public function canCreateCategories($member = null) {
-		$member = $member = $this->getMember($member);
+		$member = $this->getMember($member);
 
 		$parent = $this->Parent();
 
@@ -336,7 +343,7 @@ class BlogPost extends Page {
 	 * @return bool
 	 */
 	public function canCreateTags($member = null) {
-		$member = $member = $this->getMember($member);
+		$member = $this->getMember($member);
 
 		$parent = $this->Parent();
 
