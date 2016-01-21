@@ -1,7 +1,8 @@
 # SilverStripe Blog Module
-[![Build Status](https://travis-ci.org/gordonbanderson/silverstripe-blog.svg?branch=coverage)](https://travis-ci.org/gordonbanderson/silverstripe-blog)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/gordonbanderson/silverstripe-blog/badges/quality-score.png?b=coverage)](https://scrutinizer-ci.com/g/gordonbanderson/silverstripe-blog/?branch=coverage)
-[![codecov.io](https://codecov.io/github/gordonbanderson/silverstripe-blog/coverage.svg?branch=coverage)](https://codecov.io/github/gordonbanderson/silverstripe-blog?branch=coverage)
+[![Build Status](https://travis-ci.org/gordonbanderson/silverstripe-blog.svg?branch=master)](https://travis-ci.org/gordonbanderson/silverstripe-blog)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/gordonbanderson/silverstripe-blog/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/gordonbanderson/silverstripe-blog/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/gordonbanderson/silverstripe-blog/badges/build.png?b=master)](https://scrutinizer-ci.com/g/gordonbanderson/silverstripe-blog/build-status/master)
+[![codecov.io](https://codecov.io/github/gordonbanderson/silverstripe-blog/coverage.svg?branch=master)](https://codecov.io/github/gordonbanderson/silverstripe-blog?branch=master)
 
 [![Latest Stable Version](https://poser.pugx.org/silverstripe/blog/version)](https://packagist.org/packages/silverstripe/blog)
 [![Latest Unstable Version](https://poser.pugx.org/silverstripe/blog/v/unstable)](//packagist.org/packages/silverstripe/blog)
@@ -13,7 +14,7 @@
 [![Dependency Status](https://www.versioneye.com/php/silverstripe:blog/badge.svg)](https://www.versioneye.com/php/silverstripe:blog)
 [![Reference Status](https://www.versioneye.com/php/silverstripe:blog/reference_badge.svg?style=flat)](https://www.versioneye.com/php/silverstripe:blog/references)
 
-![codecov.io](https://codecov.io/github/gordonbanderson/silverstripe-blog/branch.svg?branch=coverage)
+![codecov.io](https://codecov.io/github/gordonbanderson/silverstripe-blog/branch.svg?branch=master)
 
 
 ## Documentation
