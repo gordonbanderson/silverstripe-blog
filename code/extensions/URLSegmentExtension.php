@@ -77,6 +77,7 @@ class URLSegmentExtension extends DataExtension
             'BlogID' => $this->owner->BlogID,
         ));
 
+        error_log('BLOG ID:*' .$this->owner->BlogID.'*');
         if ($this->owner->ID) {
             $duplicate = $duplicate->exclude('ID', $this->owner->ID);
         }
