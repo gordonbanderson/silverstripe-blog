@@ -34,7 +34,7 @@ before_script:
   - php ~/travis-support/travis_setup.php --source `pwd` --target ~/builds/ss
   - cd ~/builds/ss
   - cat ./framework/model/DB.php
-  - ./framework/model/DB.php | grep -i conn
+  - cat ./framework/model/DB.php | grep -i conn
 
 script:
   - vendor/bin/phpunit blog/tests/
