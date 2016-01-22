@@ -72,6 +72,11 @@ class URLSegmentExtension extends DataExtension
            // asdfsdfsdf;
         }
 
+        // Postgres use '' instead of 0 as an emtpy blog ID
+        if (!$this->owner->BlogID) {
+            $this->owner->BlogID = 0;
+        }
+
         $duplicate = DataList::create($this->owner->ClassName)->filter(array(
             'URLSegment' => $this->owner->URLSegment,
             'BlogID' => $this->owner->BlogID,
