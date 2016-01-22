@@ -473,6 +473,13 @@ class Blog extends Page implements PermissionProvider
 
         $query->innerJoin('BlogPost', sprintf('"SiteTree%s"."ID" = "BlogPost%s"."ID"', $stage, $stage));
 
+        // getConn is deprecated, but not get_conn in 3.1
+        $getConnectionMethod = 'getConn';
+        if (method_exists('DB','get_conn')) {
+            $getConnectionMethod = 'get_conn;'
+        };
+
+
         if (DB::get_conn() instanceof MySQLDatabase) {
             $query->where(sprintf('YEAR("PublishDate") = \'%s\'', Convert::raw2sql($year)));
 
