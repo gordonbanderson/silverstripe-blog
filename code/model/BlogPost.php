@@ -296,7 +296,7 @@ class BlogPost extends Page
     {
         error_log('Get candidate authors');
         error_log('Restrict authhors to group, filter for Code:' . $this->config()->restrict_authors_to_group);
-        foreach (Groups::get() as $group) {
+        foreach (Group::get() as $group) {
             error_log('GROUP: ' . $group->Title .', ' . $group->Code);
         }
         error_log(Group::get()->filter('Code', $this->config()->restrict_authors_to_group));
