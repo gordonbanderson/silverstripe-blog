@@ -473,7 +473,7 @@ class Blog extends Page implements PermissionProvider
 
         $query->innerJoin('BlogPost', sprintf('"SiteTree%s"."ID" = "BlogPost%s"."ID"', $stage, $stage));
 
-        if (DB::get_conn() instanceof MySQLDatabase)) {
+        if (DB::get_conn() instanceof MySQLDatabase) {
             $query->where(sprintf('YEAR("PublishDate") = \'%s\'', Convert::raw2sql($year)));
 
             if ($month) {
@@ -483,7 +483,7 @@ class Blog extends Page implements PermissionProvider
                     $query->where(sprintf('DAY("PublishDate") = \'%s\'', Convert::raw2sql($day)));
                 }
             }
-        } elseif (DB::get_conn() instanceof PostgreSQLDatabase)) {
+        } elseif (DB::get_conn() instanceof PostgreSQLDatabase) {
             $where .= sprintf('EXTRACT(YEAR FROM "PublishDate") = \'%s\'', Convert::raw2sql($year));
 
             if ($month) {
