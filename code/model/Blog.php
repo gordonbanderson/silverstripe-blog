@@ -491,7 +491,7 @@ class Blog extends Page implements PermissionProvider
                 }
             }
         } elseif (DB::$getConnectionMethod() instanceof PostgreSQLDatabase) {
-            $where .= sprintf('EXTRACT(YEAR FROM "PublishDate") = \'%s\'', Convert::raw2sql($year));
+            $where = sprintf('EXTRACT(YEAR FROM "PublishDate") = \'%s\'', Convert::raw2sql($year));
 
             if ($month) {
                 $where .= sprintf(' AND EXTRACT(MONTH FROM "PublishDate") = \'%s\'', Convert::raw2sql($month));
@@ -500,6 +500,8 @@ class Blog extends Page implements PermissionProvider
                     $where .= sprintf(' AND EXTRACT(DAY FROM "PublishDate") = \'%s\'', Convert::raw2sql($day));
                 }
             }
+
+            $query->where($where);
         }
 
 
