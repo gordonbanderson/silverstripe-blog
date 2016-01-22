@@ -40,6 +40,15 @@ class URLSegmentExtension extends DataExtension
             $this->owner->URLSegment .= '-' . $increment;
         }
 
+        error_log('Creating URLSegement for ' . $this->owner->Title);
+        error_log("\t{$this->owner->ClassName}");
+        error_log("\t{$this->owner->BlogID}");
+
+        if ($this->owner->BlogID == 0) {
+            error_log("\t++++ BLOG ID OF 0 ++++");
+        }
+
+
         $duplicate = DataList::create($this->owner->ClassName)->filter(array(
             'URLSegment' => $this->owner->URLSegment,
             'BlogID' => $this->owner->BlogID,
