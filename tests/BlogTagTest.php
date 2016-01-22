@@ -131,4 +131,34 @@ class BlogTagTest extends FunctionalTest
         $this->assertTrue($tag->canDelete($admin), 'Admin should always be able to delete tags.');
         $this->assertTrue($tag->canDelete($editor), 'Editor should be able to delete tag.');
     }
+
+
+    /*
+    Test a case of checking for duplicate tags on a blog that has not been written to the database.
+    This error was tripping fixtures import in Postgres
+     */
+    public function testDuplicateTagsBlogIDZero() {
+        error_log("\n\n\n\n---- TEST START ----");
+        $blog = new Blog();
+        $blog->Title = 'Testing for duplicates blog';
+        #$written = $blog->write();
+        #error_log('WRITTEN: ' . $written);
+        error_log('BLOG ID: ' . $blog->ID);
+        error_log('---- T1 ----');
+        $tag1 = new BlogTag();
+        $tag1->Title = 'Cat';
+        $tag1->BlogID = $blog->ID;
+        $tag1->write();
+        $this->assertEquals('cat', $tag1->URLSegment);
+
+        error_log($tag1->URLSegment);
+        error_log('---- T2 ----');
+        $tag2 = new BlogTag();
+        $tag2->Title = 'Cat';
+        $tag2->BlogID = $blog->ID;
+        $tag2->write();
+        error_log($tag2->URLSegment);
+        $this->assertEquals('cat-0', $tag2->URLSegment);
+
+    }
 }
