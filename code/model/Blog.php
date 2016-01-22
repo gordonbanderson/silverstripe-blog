@@ -473,15 +473,28 @@ class Blog extends Page implements PermissionProvider
 
         $query->innerJoin('BlogPost', sprintf('"SiteTree%s"."ID" = "BlogPost%s"."ID"', $stage, $stage));
 
-        $query->where(sprintf('YEAR("PublishDate") = \'%s\'', Convert::raw2sql($year)));
+        if (DB::get_conn() instanceof MySQLDatabase)) {
+            $query->where(sprintf('YEAR("PublishDate") = \'%s\'', Convert::raw2sql($year)));
 
-        if ($month) {
-            $query->where(sprintf('MONTH("PublishDate") = \'%s\'', Convert::raw2sql($month)));
+            if ($month) {
+                $query->where(sprintf('MONTH("PublishDate") = \'%s\'', Convert::raw2sql($month)));
 
-            if ($day) {
-                $query->where(sprintf('DAY("PublishDate") = \'%s\'', Convert::raw2sql($day)));
+                if ($day) {
+                    $query->where(sprintf('DAY("PublishDate") = \'%s\'', Convert::raw2sql($day)));
+                }
+            }
+        } elseif (DB::get_conn() instanceof PostgreSQLDatabase)) {
+            $where .= sprintf('EXTRACT(YEAR FROM "PublishDate") = \'%s\'', Convert::raw2sql($year));
+
+            if ($month) {
+                $where .= sprintf(' AND EXTRACT(MONTH FROM "PublishDate") = \'%s\'', Convert::raw2sql($month));
+
+                if ($day) {
+                    $where .= sprintf(' AND EXTRACT(DAY FROM "PublishDate") = \'%s\'', Convert::raw2sql($day));
+                }
             }
         }
+
 
         return $this->getBlogPosts()->setDataQuery($query);
     }
