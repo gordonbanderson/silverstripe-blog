@@ -52,6 +52,17 @@ class BlogCategoryTest extends FunctionalTest
         $this->assertEquals(5, $category->BlogPosts()->count(), 'Category blog post count');
     }
 
+    public function testGetCMSFields() {
+        $category = new BlogCategory();
+        $fields = $category->getCMSFields();
+        $names = array();
+        foreach ($fields as $field) {
+            array_push($names, $field->getName());
+        }
+
+        $this->assertEquals(array('Title'), $names);
+    }
+
     public function testCanView()
     {
         $this->useDraftSite();
