@@ -30,6 +30,18 @@ class BlogTagTest extends FunctionalTest
         parent::tearDown();
     }
 
+
+    public function testGetCMSFields() {
+        $tag = new BlogTag();
+        $fields = $tag->getCMSFields();
+        $names = array();
+        foreach ($fields as $field) {
+            array_push($names, $field->getName());
+        }
+
+        $this->assertEquals(array('Title'), $names);
+    }
+
     /**
      * Tests that any blog posts returned from $tag->BlogPosts() many_many are published, both by
      * normal 'save & publish' functionality and by publish date.
