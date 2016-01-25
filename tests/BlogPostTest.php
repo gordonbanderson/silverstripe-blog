@@ -24,6 +24,26 @@ class BlogPostTest extends SapphireTest
         parent::tearDown();
     }
 
+    public function testRoleOf() {
+        $post = $this->objFromFixture('BlogPost', 'PostC');
+
+        // test null member
+        $member = null;
+        $this->assertNull($post->RoleOf($member));
+
+        // one of the authors
+        $member = $post->Authors()->filter('Surname', 'Contributor')->first();
+        $this->assertEquals('Author', $post->RoleOf($member));
+
+        // remove all authors, this will check the Blog instead
+        $post->Authors()->removeAll();
+        $this->assertEquals('Contributor', $post->RoleOf($member));
+
+        // the admin has nothing to do with either BlogPost or Blog
+        $member = Member::get()->filter('URLSegment', 'test-administrator')->first();
+        $this->assertNull($post->RoleOf($member));
+    }
+
     /**
      * @dataProvider canViewProvider
      */
