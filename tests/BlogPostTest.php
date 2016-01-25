@@ -24,7 +24,8 @@ class BlogPostTest extends SapphireTest
         parent::tearDown();
     }
 
-    public function testRoleOf() {
+    public function testRoleOf()
+    {
         $post = $this->objFromFixture('BlogPost', 'PostC');
 
         // test null member
@@ -42,6 +43,49 @@ class BlogPostTest extends SapphireTest
         // the admin has nothing to do with either BlogPost or Blog
         $member = Member::get()->filter('URLSegment', 'test-administrator')->first();
         $this->assertNull($post->RoleOf($member));
+    }
+
+    public function testIsAuthor() {
+        $post = $this->objFromFixture('BlogPost', 'PostC');
+        $this->assertFalse($post->isAuthor(null));
+
+        foreach ($post->Authors()->getIterator() as $author) {
+            $this->assertTrue($post->isAuthor($author));
+        }
+
+        // test with an unsaved blog post
+        $post = new BlogPost();
+        foreach ($post->Authors()->getIterator() as $author) {
+            $post->Authors()->add($author);
+            $this->assertTrue($post->isAuthor($author));
+        }
+    }
+
+
+    public function testGetCMSFields() {
+        $post = $this->objFromFixture('BlogPost', 'PostC');
+        $fields = $post->getCMSFields();
+        $this->assertFieldnamesForTab(
+            array(
+                'InstallWarningHeader',
+                'Title',
+                'Content',
+                'FeaturedImage',
+                'CustomSummary'
+            ),
+            $fields,
+            'Root.Main'
+        );
+    }
+
+    private function assertFieldnamesForTab($expected, $fields, $tab) {
+        $tabset = $fields->findOrMakeTab($tab);
+
+        $names = array();
+        foreach ($tabset->FieldList() as $field) {
+            array_push($names, $field->getName());
+        }
+        $this->assertEquals($expected, $names);
     }
 
     /**
@@ -102,5 +146,29 @@ class BlogPostTest extends SapphireTest
         // Test cms field is generated
         $fields = $blogpost->getCMSFields();
         $this->assertNotEmpty($fields->dataFieldByName('Authors'));
+    }
+
+    public function testCanEditAuthors() {
+        $this->logInWithPermission('ADMIN');
+        error_log('ID:' . Member::currentUserID());
+        $post = $this->objFromFixture('BlogPost', 'PostC');
+        $this->assertFalse($post->canEditAuthors(null));
+/*
+        // test null member
+        $member = null;
+        $this->assertNull($post->RoleOf($member));
+
+        // one of the authors
+        $member = $post->Authors()->filter('Surname', 'Contributor')->first();
+        $this->assertEquals('Author', $post->RoleOf($member));
+
+        // remove all authors, this will check the Blog instead
+        $post->Authors()->removeAll();
+        $this->assertEquals('Contributor', $post->RoleOf($member));
+
+        // the admin has nothing to do with either BlogPost or Blog
+        $member = Member::get()->filter('URLSegment', 'test-administrator')->first();
+        $this->assertNull($post->RoleOf($member));
+*/
     }
 }
