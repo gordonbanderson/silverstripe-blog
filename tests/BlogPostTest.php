@@ -71,7 +71,8 @@ class BlogPostTest extends SapphireTest
                 'Title',
                 'Content',
                 'FeaturedImage',
-                'CustomSummary'
+                'CustomSummary',
+                'Metadata'
             ),
             $fields,
             'Root.Main'
@@ -152,7 +153,11 @@ class BlogPostTest extends SapphireTest
         $this->logInWithPermission('ADMIN');
         error_log('ID:' . Member::currentUserID());
         $post = $this->objFromFixture('BlogPost', 'PostC');
-        $this->assertFalse($post->canEditAuthors(null));
+
+        // null equates to the current member, in this case admin
+        $this->assertTrue($post->canEditAuthors(null));
+
+
 /*
         // test null member
         $member = null;
