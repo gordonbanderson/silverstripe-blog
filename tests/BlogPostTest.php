@@ -176,4 +176,61 @@ class BlogPostTest extends SapphireTest
         $this->assertNull($post->RoleOf($member));
 */
     }
+
+
+    public function testOnBeforePublish() {
+        $date = '2013-10-10 20:00:00';
+        SS_Datetime::set_mock_now($date);
+
+        $post = $this->objFromFixture('BlogPost', 'PostC');
+        $post->doUnpublish();
+        $post->PublishDate = null;
+        $post->write();
+        $this->assertNull($post->PublishDate);
+
+        // publish and check publish date has been set
+        $post->doPublish();
+        $this->assertEquals($date, $post->PublishDate);
+        SS_Datetime::clear_mock_now();
+    }
+
+    public function testOnBeforeWrite() {
+        $this->logInWithPermission('ADMIN');
+        $blog = $this->objFromFixture('Blog', 'FirstBlog');
+        $post = new BlogPost();
+        $post->ParentID = $blog->ID;
+        $post->Title = 'Blog Post Title';
+        $this->assertEquals(0, $post->Authors()->count());
+        $post->write();
+        $this->assertEquals(1, $post->Authors()->count());
+        $this->assertEquals(
+            Member::currentUserID(),
+            $post->Authors()->first()->ID
+        );
+
+    }
+
+    public function testGetCredits() {
+        $post = $this->objFromFixture('BlogPost', 'PostC');
+        $credits = $post->getCredits()->Map('ID', 'Name');
+        $expected = array('Blog Contributor', 'Blog Editor', 'Blog Writer');
+        error_log(print_r($credits, 1));
+        $this->assertEquals($expected, array_values($credits));
+
+        $page = new Page();
+        $page->Title = 'Test Holder';
+        $page->write();
+
+        // now change the parent
+        $post->ParentID = $page->ID;
+        $post->write();
+
+        $credits = $post->getCredits()->Map('ID', 'Name');
+        $expected = array('Blog Contributor', 'Blog Editor', 'Blog Writer');
+        error_log(print_r($credits, 1));
+        $this->assertEquals($expected, array_values($credits));
+
+
+    }
+
 }
