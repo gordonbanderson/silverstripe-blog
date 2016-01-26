@@ -36,26 +36,25 @@ class BlogCategoriesWidgetTest extends SapphireTest {
             $categories = $widget->getCategories();
             $this->assertListIsBlogCategoryOfLength($categories, $i);
         }
-
+        error_log('---- CHECK 1 ----');
         // Check 0, or unlimited case.  Should return all, in this case 4
         $widget->Limit = 0;
         $categories = $widget->getCategories();
-        $this->assertListIsBlogCategoryOfLength($categories, 4);
+        $this->assertListIsBlogCategoryOfLength($categories, 5);
 
+        error_log('---- CHECK 2 ----');
         // Check for more than there is.  Should return all, in this case 4
         $widget->Limit = 10;
         $categories = $widget->getCategories();
-        $this->assertListIsBlogCategoryOfLength($categories, 4);
-
-
-
+        $this->assertListIsBlogCategoryOfLength($categories, 5);
 	}
 
     private function assertListIsBlogCategoryOfLength($categories, $amount) {
-        $this->assertEquals($amount, $categories->count());
         foreach ($categories as $category) {
             $this->assertInstanceOf('BlogCategory', $category);
         }
+        $this->assertEquals($amount, $categories->count());
+
     }
 
 }
