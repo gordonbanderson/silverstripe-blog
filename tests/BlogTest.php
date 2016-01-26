@@ -40,7 +40,6 @@ class BlogTest extends SapphireTest
     }
 
 
-
     public function testGetCMSFields() {
         $blog = $this->objFromFixture('Blog', 'FirstBlog');
         $fields = $blog->getCMSFields();
@@ -66,7 +65,6 @@ class BlogTest extends SapphireTest
             'Root.ChildPages'
         );
 
-
         $this->assertFieldnamesForTab(
             array(
                 'Categories',
@@ -85,6 +83,22 @@ class BlogTest extends SapphireTest
             array_push($names, $field->getName());
         }
         $this->assertEquals($expected, $names);
+    }
+
+
+    public function testGetMember() {
+        $class = new ReflectionClass('Blog');
+        $method = $class->getMethod('getMember');
+        $method->setAccessible(true);
+
+        $blog = $this->objFromFixture('Blog', 'FirstBlog');
+        $this->logInWithPermission('ADMIN');
+        $member = $method->invoke($blog, null);
+        $this->assertEquals(Member::currentUser(), $member);
+
+        $member = $this->objFromFixture('Member', 'Writer');
+        $blogMember = $method->invoke($blog, $member->ID);
+        $this->assertEquals($member, $blogMember);
     }
 
 
@@ -360,6 +374,17 @@ class BlogTest extends SapphireTest
             array($firstPostID, $secondPostID, $secondFuturePostID),
             $controller->PaginatedList()
         );
+    }
+
+    public function testProfileLink() {
+        $blog = $this->objFromFixture('Blog', 'FirstBlog');
+        $author = $this->objFromFixture('Member', 'Writer');
+        $this->assertEquals('/first-blog/profile/blog-writer', $blog->ProfileLink($author->URLSegment));
+    }
+
+    public function testGetLumberJackTitle() {
+        $blog = $this->objFromFixture('Blog', 'FirstBlog');
+        $this->assertEquals('Blog Posts', $blog->getLumberJackTitle());
     }
 
     /**
