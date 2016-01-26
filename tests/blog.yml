@@ -116,6 +116,22 @@ BlogCategory:
     Title: 'Third Category'
     URLSegment: 'third-category'
     Blog: =>Blog.ThirdBlog
+  FourthCategory1:
+    Title: 'Fourther Category 1'
+    URLSegment: 'fourth-category-1'
+    Blog: =>Blog.FourthBlog
+  FourthCategory2:
+    Title: 'Fourther Category 2'
+    URLSegment: 'fourth-category-2'
+    Blog: =>Blog.FourthBlog
+  FourthCategory3:
+    Title: 'Fourther Category 3'
+    URLSegment: 'fourth-category-3'
+    Blog: =>Blog.FourthBlog
+  FourthCategory4:
+    Title: 'Fourther Category 4'
+    URLSegment: 'fourth-category-4'
+    Blog: =>Blog.FourthBlog
 
 BlogPost:
   FirstBlogPost:
