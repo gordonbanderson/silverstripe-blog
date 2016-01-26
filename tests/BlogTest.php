@@ -75,12 +75,49 @@ class BlogTest extends SapphireTest
         );
     }
 
+
+    public function testGetSettingsFields() {
+        $blog = $this->objFromFixture('Blog', 'FirstBlog');
+        $fields = $blog->getSettingsFields();
+        $this->assertFieldnamesForTab(
+            array(
+                'ClassName',
+                array('ParentType', 'ParentID'),
+                array('ShowInMenus', 'ShowInSearch'),
+                'CanViewType',
+                'ViewerGroups',
+                'CanEditType',
+                'EditorGroups',
+                'PostsPerPage'
+            ),
+            $fields,
+            'Root.Settings'
+        );
+
+        $this->assertFieldnamesForTab(
+            array(
+                'Editors', 'Writers', 'Contributors'
+            ),
+            $fields,
+            'Root.Users'
+        );
+    }
+
     private function assertFieldnamesForTab($expected, $fields, $tab) {
         $tabset = $fields->findOrMakeTab($tab);
 
         $names = array();
         foreach ($tabset->FieldList() as $field) {
-            array_push($names, $field->getName());
+            if ($field->isComposite()) {
+                $subnames = array();
+                foreach ($field->getChildren() as $childField) {
+                    array_push($subnames, $childField->getName());
+                }
+                array_push($names, $subnames);
+            } else {
+                array_push($names, $field->getName());
+            }
+
         }
         $this->assertEquals($expected, $names);
     }
