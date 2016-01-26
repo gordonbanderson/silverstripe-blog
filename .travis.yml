@@ -49,7 +49,7 @@ before_script:
   - php ~/travis-support/travis_setup.php --source `pwd` --target ~/builds/ss --require "silverstripe/comments" --require "silverstripe/widgets"
   - cd ~/builds/ss
   #DEBUG
-  - ls -al code/compat/widgets/
+  - ls -al blog/code/compat/widgets/
 
 #Execute tests with or without coverage
 script:
