@@ -39,6 +39,55 @@ class BlogTest extends SapphireTest
         parent::tearDown();
     }
 
+
+
+    public function testGetCMSFields() {
+        $blog = $this->objFromFixture('Blog', 'FirstBlog');
+        $fields = $blog->getCMSFields();
+        $this->assertFieldnamesForTab(
+            array(
+                'InstallWarningHeader',
+                'Title',
+                'URLSegment',
+                'MenuTitle',
+                'Content',
+                'Metadata'
+            ),
+            $fields,
+            'Root.Main'
+        );
+
+        // This is the Lumberjack managed tab
+        $this->assertFieldnamesForTab(
+            array(
+                'ChildPages'
+            ),
+            $fields,
+            'Root.ChildPages'
+        );
+
+
+        $this->assertFieldnamesForTab(
+            array(
+                'Categories',
+                'Tags'
+            ),
+            $fields,
+            'Root.Categorisation'
+        );
+    }
+
+    private function assertFieldnamesForTab($expected, $fields, $tab) {
+        $tabset = $fields->findOrMakeTab($tab);
+
+        $names = array();
+        foreach ($tabset->FieldList() as $field) {
+            array_push($names, $field->getName());
+        }
+        $this->assertEquals($expected, $names);
+    }
+
+
     public function testGetExcludedSiteTreeClassNames()
     {
         $member = Member::currentUser();
@@ -276,7 +325,7 @@ class BlogTest extends SapphireTest
     {
         $blog = $this->objFromFixture('Blog', 'FirstBlog');
         $controller = new Blog_Controller($blog);
-        
+
         // Root url
         $this->requestURL($controller, 'first-post');
         $this->assertIDsEquals(
