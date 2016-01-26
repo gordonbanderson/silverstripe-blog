@@ -8,6 +8,9 @@ class BlogAdminSidebarTest extends SapphireTest {
     public function testIsOpen() {
         $bar = new BlogAdminSidebar();
 
+        // no cookie set
+        $this->assertTrue($bar->isOpen());
+
         Cookie::set('blog-admin-sidebar',1);
         $this->assertTrue($bar->isOpen());
 
