@@ -14,7 +14,7 @@ class BlogCommentExtensionTest extends SapphireTest {
     /*
     If comment is by a blog author add an extra CSS class
      */
-	public function testGetExtraClass() {
+    public function testGetExtraClass() {
         if (!class_exists('Comment')) {
             $this->markTestSkipped('Comments module is not installed');
         }
