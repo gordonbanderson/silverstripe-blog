@@ -89,11 +89,13 @@ class BlogArchiveWidget extends Widget
     public function getArchive()
     {
         $query = $this->Blog()->getBlogPosts()->dataQuery();
-
+        $conn = DB::getConn();
         if ($this->ArchiveType == 'Yearly') {
-            $query->groupBy('DATE_FORMAT("PublishDate", \'%Y\')');
+            $yearCond = $conn->formattedDatetimeClause('"BlogPost"."PublishDate"', '%Y');
+            $query->groupBy($yearCond);
         } else {
-            $query->groupBy('DATE_FORMAT("PublishDate", \'%Y-%M\')');
+            $yearMonthCond = $conn->formattedDatetimeClause('"BlogPost"."PublishDate"', '%Y-%m');
+            $query->groupBy($yearMonthCond);
         }
 
         $posts = $this->Blog()->getBlogPosts()->setDataQuery($query);
