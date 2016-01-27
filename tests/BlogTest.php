@@ -50,7 +50,7 @@ class BlogTest extends SapphireTest
                 'URLSegment',
                 'MenuTitle',
                 'Content',
-                'Metadata'
+                array('MetaDescription', 'ExtraMeta')
             ),
             $fields,
             'Root.Main'
