@@ -31,7 +31,6 @@ class BlogCategoriesWidgetTest extends SapphireTest {
 
         // Check limit from 1 to 4
         for ($i=1; $i <= 4 ; $i++) {
-            echo $i;
             $widget->Limit = $i;
             $categories = $widget->getCategories();
             $this->assertListIsBlogCategoryOfLength($categories, $i);

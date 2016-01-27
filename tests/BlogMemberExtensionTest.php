@@ -27,14 +27,6 @@ class BlogMemberExtensionTest extends SapphireTest {
         $this->assertEquals('fred-bloggs-2', $member3->URLSegment);
 	}
 
-	public function testGenerateURLSegment() {
-		$this->markTestSkipped('TODO');
-	}
-
-	public function testValidURLSegment() {
-		$this->markTestSkipped('TODO');
-	}
-
 	public function testUpdateCMSFields() {
 		$member = $this->objFromFixture('Member', 'Editor');
         $fields = $member->getCMSFields();
@@ -44,7 +36,6 @@ class BlogMemberExtensionTest extends SapphireTest {
         foreach ($fields as $field) {
             array_push($names, $field->getName());
         }
-
         $this->assertEquals(array('BlogPosts'), $names);
 	}
 
