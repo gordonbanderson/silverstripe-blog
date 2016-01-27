@@ -151,30 +151,10 @@ class BlogPostTest extends SapphireTest
 
     public function testCanEditAuthors() {
         $this->logInWithPermission('ADMIN');
-        error_log('ID:' . Member::currentUserID());
         $post = $this->objFromFixture('BlogPost', 'PostC');
 
         // null equates to the current member, in this case admin
         $this->assertTrue($post->canEditAuthors(null));
-
-
-/*
-        // test null member
-        $member = null;
-        $this->assertNull($post->RoleOf($member));
-
-        // one of the authors
-        $member = $post->Authors()->filter('Surname', 'Contributor')->first();
-        $this->assertEquals('Author', $post->RoleOf($member));
-
-        // remove all authors, this will check the Blog instead
-        $post->Authors()->removeAll();
-        $this->assertEquals('Contributor', $post->RoleOf($member));
-
-        // the admin has nothing to do with either BlogPost or Blog
-        $member = Member::get()->filter('URLSegment', 'test-administrator')->first();
-        $this->assertNull($post->RoleOf($member));
-*/
     }
 
 
@@ -207,14 +187,13 @@ class BlogPostTest extends SapphireTest
             Member::currentUserID(),
             $post->Authors()->first()->ID
         );
-
     }
 
     public function testGetCredits() {
         $post = $this->objFromFixture('BlogPost', 'PostC');
         $credits = $post->getCredits()->Map('ID', 'Name');
         $expected = array('Blog Contributor', 'Blog Editor', 'Blog Writer');
-        error_log(print_r($credits, 1));
+
         $this->assertEquals($expected, array_values($credits));
 
         $page = new Page();
@@ -227,7 +206,6 @@ class BlogPostTest extends SapphireTest
 
         $credits = $post->getCredits()->Map('ID', 'Name');
         $expected = array('Blog Contributor', 'Blog Editor', 'Blog Writer');
-        error_log(print_r($credits, 1));
         $this->assertEquals($expected, array_values($credits));
 
 
