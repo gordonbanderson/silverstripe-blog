@@ -11,7 +11,7 @@ class GridFieldBlogPostStateTest extends SapphireTest {
         $this->gridField = new GridField(
             'BlogPosts',
             'Blog Posts',
-            BlogPost::get(), // all blog posts, hey it's a test
+            BlogPost::get(), // a list of blog posts
             new GridFieldConfig_BlogPost()
         );
         SS_Datetime::set_mock_now('2013-10-10 20:00:00');
