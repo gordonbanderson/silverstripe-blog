@@ -23,17 +23,81 @@ class BlogArchiveWidgetTest extends SapphireTest {
         $this->assertEquals($expected, $names);
     }
 
-	public function testGetArchive() {
-		$blog = $this->objFromFixture('Blog', 'FirstBlog');
+	public function testGetArchiveYearly() {
+        $blog = $this->objFromFixture('Blog', 'FirstBlog');
         $widget = new BlogArchiveWidget();
         $widget->BlogID = $blog->ID;
         $widget->write();
         $widget->ArchiveType = 'Yearly';
         $widget->NumberToDisplay = 100;
-        $results = $widget->getArchive();
+        $results = $widget->getArchive()->toArray();
+        $check = array();
         foreach ($results as $result) {
-            error_log($result);
+            $info = array();
+            $mapping = $result->toMap();
+            $info['Title'] = $mapping['Title'];
+            $info['Link'] = $mapping['Link'];
+            array_push($check, $info);
         }
-	}
+
+        $expected = array(
+            array(
+                'Title' => '2015',
+                'Link' => '/first-blog/archive/2015'
+            ),
+            array(
+                'Title' => '2013',
+                'Link' => '/first-blog/archive/2013'
+            ),
+            array(
+                'Title' => '2012',
+                'Link' => '/first-blog/archive/2012'
+            )
+        );
+        $this->assertEquals($expected, $check);
+    }
+
+
+    public function testGetArchiveMonthly() {
+        $blog = $this->objFromFixture('Blog', 'FirstBlog');
+        $widget = new BlogArchiveWidget();
+        $widget->BlogID = $blog->ID;
+        $widget->write();
+        $widget->ArchiveType = 'Monthly';
+        $widget->NumberToDisplay = 100;
+        $results = $widget->getArchive()->toArray();
+        $check = array();
+        foreach ($results as $result) {
+            $info = array();
+            $mapping = $result->toMap();
+            $info['Title'] = $mapping['Title'];
+            $info['Link'] = $mapping['Link'];
+            array_push($check, $info);
+        }
+
+        $expected = array(
+            array(
+                'Title' => 'January 2015',
+                'Link' => '/first-blog/archive/2015/01'
+            ),
+            array(
+                'Title' => 'November 2013',
+                'Link' => '/first-blog/archive/2013/11'
+            ),
+            array(
+                'Title' => 'October 2013',
+                'Link' => '/first-blog/archive/2013/10'
+            ),
+            array(
+                'Title' => 'September 2013',
+                'Link' => '/first-blog/archive/2013/09'
+            ),
+            array(
+                'Title' => 'January 2012',
+                'Link' => '/first-blog/archive/2012/01'
+            )
+        );
+        $this->assertEquals($expected, $check);
+    }
 
 }
