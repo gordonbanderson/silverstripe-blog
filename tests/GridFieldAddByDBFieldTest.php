@@ -145,8 +145,4 @@ class GridFieldAddByDBFieldTest extends SapphireTest {
         }
 	}
 
-	public function testGetHTMLFragments() {
-		$this->markTestSkipped('TODO');
-	}
-
 }
