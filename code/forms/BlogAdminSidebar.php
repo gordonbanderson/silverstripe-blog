@@ -16,7 +16,7 @@ class BlogAdminSidebar extends FieldGroup
         error_log('T5: $sidebar === null: ' . ($sidebar === null));
 
         // 0 is evaluated as null for PHP < 5.6, so add a special case
-        if ($sidebar === 0) {
+        if ($sidebar == 0) {
             return false;
         }
 
