@@ -9,6 +9,8 @@ class BlogAdminSidebarTest extends SapphireTest {
         $bar = new BlogAdminSidebar();
 
         // no cookie set
+        error_log('testIsOpen: T0');
+
         $this->assertTrue($bar->isOpen());
 
         error_log('testIsOpen: T1');
